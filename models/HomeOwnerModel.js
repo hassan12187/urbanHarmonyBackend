@@ -1,5 +1,6 @@
 import {Schema,model} from "mongoose";
-const homeOwnersSchema = new Schema({
+import isEmail from "validator/lib/isEmail.js";
+const userSchema = new Schema({
     username:{
         type:String,
         minlength:6,
@@ -14,6 +15,10 @@ const homeOwnersSchema = new Schema({
     password:{
         type:String,
         require:true
+    },
+    role:{
+        type:String,
+        default:"User"
     },
     image:{
         type:String,
@@ -30,5 +35,17 @@ const homeOwnersSchema = new Schema({
         maxlength:15
     }
 });
-const homeOwnerModel=model("User",homeOwnersSchema);
-export default homeOwnerModel;
+// userSchema.path("username").validate({
+//     validator:function(v){
+//         return v.length >= 6 && /^[a-zA-Z0-9]+$/g.test(v);
+//     },
+//     message:"Username must be atleast 3 characters long and contain only alphanumeric characters."
+// });
+// userSchema.path("email").validate({
+//     validator:function(v){
+//         return isEmail(v);
+//     },
+//     message:"Email is not valid email"
+// })
+const userModel=model("User",userSchema);
+export default userModel;

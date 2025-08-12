@@ -1,4 +1,5 @@
-const error=(req,res,next,err)=>{
-    console.log(err);
+const error=(req,res,err)=>{
+        const {status,message}=err;
+        return res.send({status,message});
 }
 export default error;
