@@ -9,7 +9,6 @@ app.use(express.json());
 app.use("/api",userRouter);
 app.use(error);
 connectDB.then((result)=>{
-
     app.listen(3000,()=>{
         console.log(`server is running on 3000`);
     })

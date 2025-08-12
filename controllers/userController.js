@@ -1,6 +1,6 @@
 import userModel from "../models/userModel.js";
 
-const getHomeOnwers=(req,res)=>{
+const getUsers=(req,res)=>{
     try {
         res.send({message:"hassan is here"});
     } catch (error) {
@@ -17,4 +17,4 @@ const addUser=async(req,res)=>{
 const login=async(req,res)=>{
    
 }
-export {getHomeOnwers,addUser};
+export {getUsers,addUser};
