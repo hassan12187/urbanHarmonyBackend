@@ -31,4 +31,6 @@ const register=async(req,res)=>{
         return res.send({error:400,message:"Error in Registration"});
     }
 }
+// const checkToken=()=>{};
+// const generateToken=()=>{};
 export {login,register};

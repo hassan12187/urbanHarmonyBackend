@@ -14,7 +14,4 @@ const addUser=async(req,res)=>{
         res.send({error});
     }
 };
-const login=async(req,res)=>{
-   
-}
 export {getUsers,addUser};
