@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-const login=(req,res,next)=>{
-    try {
-        
-        res.send({message:"login service"});
-=======
 import { compare } from "bcrypt";
 import userModel from "../models/userModel.js";
 import { isAlphanumeric } from "./isAlphanumeric.js";
@@ -18,7 +12,6 @@ const login=async(req,res)=>{
             return res.send({status:200,message:"Password Matched Login Successfull"});
         }
         return res.send({status:202,message:"Wrong Credentials"});
->>>>>>> refs/remotes/origin/main
     } catch (error) {
         console.log("error inside login controller: ",error);
         return res.send({error:400,message:"Error in login"});
