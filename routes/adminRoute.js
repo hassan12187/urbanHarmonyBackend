@@ -1,5 +1,10 @@
 import { Router } from "express";
 import { getUsers } from "../controllers/userController.js";
+import {addAdmin,editAdmin,deleteAdmin} from "../controllers/adminController.js";
 const router = Router();
-router.get("/",getUsers);
+router.get("/user",getUsers);
+router.post('/',addAdmin);
+// router.patch("/user/:id",editUser);
+// router.delete("/user/:id",deleteUser);
+router.patch("/:id",editAdmin);
 export default router;

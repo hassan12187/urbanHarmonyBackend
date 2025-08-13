@@ -2,14 +2,18 @@ import { compare } from "bcrypt";
 import userModel from "../models/userModel.js";
 import { isAlphanumeric } from "./isAlphanumeric.js";
 import isEmail from "validator/lib/isEmail.js";
+import jwt from "jsonwebtoken";
 
 const login=async(req,res)=>{
     try {
         const {email,password}=req.body;
         const user = await userModel.findOne({email});
-        const isTrue = await compare(password,user.password);
+        if(!user)return res.status(400).send("User not found");
+        const isTrue = await compare(password,user?.password);
         if(isTrue){
-            return res.send({status:200,message:"Password Matched Login Successfull"});
+            const {_id,email,username,role}=user;
+            const token = generateToken({_id,email,username,role});
+            return res.send({status:200,message:"Password Matched Login Successfull",token});
         }
         return res.send({status:202,message:"Wrong Credentials"});
     } catch (error) {
@@ -31,6 +35,10 @@ const register=async(req,res)=>{
         return res.send({error:400,message:"Error in Registration"});
     }
 }
-// const checkToken=()=>{};
-// const generateToken=()=>{};
+export const verifyToken=(token)=>{    
+    return jwt.verify(token,process.env.secretKey);
+};
+export const generateToken=(user)=>{
+    return jwt.sign(user,process.env.secretKey);
+};
 export {login,register};

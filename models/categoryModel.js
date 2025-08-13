@@ -2,6 +2,11 @@ import { Schema,model } from "mongoose";
 const categorySchema=new Schema({
     categoryName:{
         type:String
+    },
+    categoryStatus:{
+        type:String,
+        enum:["Active","Deactive"],
+        default:"Active"
     }
 });
 const categoryModel=model("Category",categorySchema);

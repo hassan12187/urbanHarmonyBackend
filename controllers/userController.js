@@ -1,17 +1,12 @@
 import userModel from "../models/userModel.js";
 
-const getUsers=(req,res)=>{
+export const getUsers=async(req,res)=>{
     try {
-        res.send({message:"hassan is here"});
+        const users = await userModel.find({});
+        return res.send({status:200,message:users});
     } catch (error) {
         next(error);
     }
 }
-const addUser=async(req,res)=>{
-    try {
-      
-    } catch (error) {
-        res.send({error});
-    }
-};
-export {getUsers,addUser};
+export const editUser=async()=>{};
+export const deleteUser=async()=>{};
