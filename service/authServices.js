@@ -3,9 +3,11 @@ import userModel from "../models/userModel.js";
 import { isAlphanumeric } from "./isAlphanumeric.js";
 import isEmail from "validator/lib/isEmail.js";
 import jwt from "jsonwebtoken";
+import { sendEmail } from "./emailService.js";
 
 const login=async(req,res)=>{
     try {
+        console.log(req.body);
         const {email,password}=req.body;
         const user = await userModel.findOne({email});
         if(!user)return res.status(400).send("User not found");
@@ -28,6 +30,7 @@ const register=async(req,res)=>{
         if(user)return res.send({status:400,message:"User already exist!"});
         if(!isEmail(email))return res.send({status:400,message:"Not Valid Email!"});
         if(!isAlphanumeric(username))return res.send({status:400,message:"Not a valid username"});
+        const emailResult = await sendEmail(email);
         const result=new userModel({username,email,password});
         await result.save();
         return result ? res.send({status:200,message:"Registered User Successfully"}) : res.send({status:400,message:"Error Registering User!"});

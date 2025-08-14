@@ -7,13 +7,20 @@ import categoryRoute from "./routes/categoryRoute.js";
 import {config} from "dotenv";
 import { checkRoleForAdmin } from "./middlewares/checkRole.js";
 import adminRoute from "./routes/adminRoute.js";
+import cors from "cors";
 const app = express();
+
 config();
 app.use(express.json());
+app.use(cors({
+      origin: '*', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use("/static",staticRoutes);
 app.use("/api",userRouter);
 app.use("/api/category",checkRoleForAdmin,categoryRoute);
-app.use("/api/admin",checkRoleForAdmin,adminRoute)
+app.use("/api/admin",checkRoleForAdmin,adminRoute);
 // app.use(error);
 connectDB.then((result)=>{
     app.listen(3000,()=>{

@@ -1,8 +1,26 @@
 import productModel from "../models/productModel.js";
+import { setLimitProductCache ,getLimitedProductFromCache, getProductsCache, setProductsCache} from "../service/cacheService.js";
 
 export const getAllProducts=async(req,res)=>{
     try {
-        const result = await productModel.find().populate("category");
+        const limit = req.query.limit;
+        if(limit > 0){
+            const limitedCachedData=await getLimitedProductFromCache();
+            console.log(limitedCachedData);
+            if(limitedCachedData != undefined){
+                console.log("here is here");
+                return res.send({status:200,message:limitedCachedData});
+            }
+            const products = await productModel.find().limit(5).populate("category");
+            console.log("the products: ",products);
+            await setLimitProductCache(products)
+            return res.send({status:200,message:products});
+        }
+        const productFromCache=await getProductsCache();
+        console.log("the result is: ",productFromCache);
+        if(productFromCache != undefined)return res.send({status:200,message:productFromCache});
+        const result = await productModel.find().limit(15).populate("category");
+        await setProductsCache(result);
         return res.send({status:200,message:result});
     } catch (error) {
        return res.send({status:400,message:"Error in getting all products"}); 
@@ -20,8 +38,8 @@ export const getProduct=async(req,res)=>{
 }
 export const addProduct=async(req,res)=>{
     try {
-        const {title,description,price,image,categoryID}=req.body;
-        const result = await productModel.insertOne({title,description,price,brand,image,categoryID});
+        const {title,description,price,brand,category}=req.body;
+        const result = await productModel.insertOne({title,description,price,brand,category});
         if(result)return res.send({status:200,message:"Successfully added a Product"});
         return res.send({status:400,message:"Error Adding Product Please Try Again."});
     } catch (error) {

@@ -25,6 +25,11 @@ const userSchema = new Schema({
         type:String,
         default:"../assets/images/default.png"
     },
+    status:{
+        type:String,
+        enum:["Active","Deactive"],
+        default:"Active"
+    }
 });
 
 userSchema.pre("save",async function(){

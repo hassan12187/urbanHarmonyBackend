@@ -39,14 +39,3 @@ export const deleteCategory=async(req,res)=>{
         return res.send({status:400,message:"Error in Deleting Category"});
     }
 }
-// export const editCategory=async(req,res)=>{
-//     try {
-//         const {status}=req.body;
-//         const cid = req.params.cid;
-//         const result = await categoryModel.findOneAndUpdate({_id:cid},{$set:{status}});
-//         if(result)return res.status(200).send("Successfully Updated");
-//         return res.send({status:400,message:"Not Updated"});
-//     } catch (error) {
-//         return res.send({status:400,message:"Error in deactivating product"});
-//     }
-// }
